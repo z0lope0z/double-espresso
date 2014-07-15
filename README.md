@@ -63,6 +63,36 @@ com.android.support:support-v4:19.0.1
 ```
 
 
+IDE Integration
+---------------
+
+Although out of scope for this project, there have been reports about not having autocomplete and other functionalities on Android Studio/IntelliJ. This is because your IDE does not recognize the project's test folder as a source folder. You will need to modify your .iml file directly or execute this script in gradle.
+```
+task addTest() {
+
+  def src = ['src/androidTest']
+  def  file = file("Project.iml")
+
+  doLast{
+    def parsedXml = (new XmlParser()).parse(file)
+    def node = parsedXml.component[1].content[0]
+    src.each{
+      def path = 'file://$MODULE_DIR$/'+"${it}"
+      def set =  node.find { it.@url == path}
+      if( set == null) {
+        new Node(node, 'sourceFolder', [ 'url' :'file://$MODULE_DIR$/'+"${it}", 'isTestSource':"true"])
+        def writer = new StringWriter()
+        new XmlNodePrinter(new PrintWriter(writer)).print(parsedXml)
+        file.text = writer.toString()
+      }
+    }
+  }
+}
+```
+Reference:
+https://groups.google.com/forum/#!msg/adt-dev/v0AluPBcoy0/KXR7oOmRQZIJ
+http://blog.futurice.com/android_unit_testing_in_ides_and_ci_environments
+
 
 Notes
 -----
