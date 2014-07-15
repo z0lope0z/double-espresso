@@ -66,11 +66,11 @@ com.android.support:support-v4:19.0.1
 IDE Integration
 ---------------
 
-Although out of scope for this project, there have been reports about not having autocomplete and other functionalities on Android Studio/IntelliJ. This is because your IDE does not recognize the project's test folder as a source folder. You will need to modify your .iml file directly or execute this script in gradle.
+Although out of scope for this project, there have been [reports][7] about not having autocomplete and other functionalities on Android Studio/IntelliJ. This is because your IDE does not recognize the project's test folder as a source folder. You will need to modify your .iml file directly or execute this script in gradle.
 ```
 task addTest() {
 
-  def src = ['src/androidTest']
+  def src = ['src/androidTest/java']
   def  file = file("Project.iml")
 
   doLast{
@@ -89,10 +89,6 @@ task addTest() {
   }
 }
 ```
-Reference:
-https://groups.google.com/forum/#!msg/adt-dev/v0AluPBcoy0/KXR7oOmRQZIJ
-http://blog.futurice.com/android_unit_testing_in_ides_and_ci_environments
-
 
 Notes
 -----
@@ -133,3 +129,4 @@ The following things are worth noting from the migration:
  [4]: http://square.github.io/dagger
  [5]: https://github.com/JakeWharton/double-espresso/compare/master...gradle
  [6]: http://tools.android.com/tech-docs/new-build-system/migrating_to_09
+ [7]: https://groups.google.com/forum/#!msg/adt-dev/v0AluPBcoy0/KXR7oOmRQZIJ
